@@ -65,7 +65,7 @@
   },
   "scripts": {
     "dev": "redis-server & cross-env NODE_ENV=development nodemon index.ts",
-    "build": "rimraf build && ttsc -p tsconfig.server.json && copyfiles -f .env ./build",
+    "build": "rimraf build && tsc -p tsconfig.json && copyfiles -f .env ./build",
     "start": "cross-env NODE_ENV=production node build/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
