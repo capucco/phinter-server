@@ -61,11 +61,13 @@
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "ts-node": "^10.0.0",
-    "tsconfig-paths": "^3.9.0"
+    "tsconfig-paths": "^3.9.0",
+    "ttypescript": "^1.5.12",
+    "typescript-transform-paths": "^2.2.3"
   },
   "scripts": {
     "dev": "redis-server & cross-env NODE_ENV=development nodemon index.ts",
-    "build": "rimraf build && tsc -p tsconfig.json && copyfiles -f .env ./build",
+    "build": "rimraf build && ttsc -p tsconfig.json && copyfiles -f .env ./build",
     "start": "cross-env NODE_ENV=production node build/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
