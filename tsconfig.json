@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["es6"],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -17,6 +17,9 @@
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "*": ["*"]
+    },
     "plugins": [
       { "transform": "typescript-transform-paths" }
     ]
