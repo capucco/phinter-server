@@ -5,7 +5,12 @@ import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import multer from 'multer';
 
-import { createPost, getPostList, increasePostRathing } from './post.service';
+import {
+  createPost,
+  getPost,
+  getPostList,
+  increasePostRathing,
+} from './post.service';
 
 const router = Router();
 const redisClient = redis.createClient();
@@ -19,9 +24,21 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.get('/list', async (req, res) => {
-  const list = await getPostList();
+  const { limit, offset } = req.query;
+
+  // validate query params
+
+  const list = await getPostList(limit as string, offset as string);
 
   return res.status(200).end(list);
+});
+
+router.get('/:postId', async (req, res) => {
+  const { postId } = req.params;
+
+  const post = await getPost(postId);
+
+  return res.status(200).end(post);
 });
 
 router.get('/:id/:mediaId', async (req, res) => {
@@ -33,11 +50,17 @@ router.get('/:id/:mediaId', async (req, res) => {
 });
 
 router.post('/', upload.single('media'), async (req, res, next) => {
-  const { description, creatorAddress } = req.body;
+  const { header, description, creatorAddress } = req.body;
   const postId = uuidv4();
 
   try {
-    await createPost(postId, req.file.filename, description, creatorAddress);
+    await createPost(
+      postId,
+      req.file.filename,
+      header,
+      description,
+      creatorAddress
+    );
     redisClient.publish('post', postId);
 
     return res.status(200).end();
